@@ -97,6 +97,13 @@ uv run racing --seed 110 \
 See [Capturing human demonstrations](README.md#capturing-human-demonstrations)
 for the JSONL schema and data boundaries.
 
+For several consecutive trials stored as separate training trajectories:
+
+```bash
+uv run racing-record-human-trials --trials 5 --seed 110 \
+  --output-dir artifacts/human-driving
+```
+
 ## 4. Run the starter controller
 
 The intentionally tiny controller in `src/controllers/crash_fast.py` always

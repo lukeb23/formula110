@@ -218,6 +218,25 @@ Infinite LiDAR no-hit values are serialized as JSON `null`. Each launch appends
 with a new `session_id`; split trajectories on that ID rather than treating the
 first row of a new session as following the previous session.
 
+To collect several trials without retyping the simulator command, run:
+
+```bash
+uv run racing-record-human-trials \
+  --trials 5 \
+  --seed 110 \
+  --output-dir artifacts/human-driving
+```
+
+Drive one trial and close its window; the next trial then starts automatically.
+Each invocation creates a unique run directory containing one JSONL file per
+trial and a `manifest.json` with paths, seeds, session IDs, row counts, and
+completion status. This keeps trajectories independently removable and makes it
+safe to assign entire trials to training, validation, or test splits.
+
+The seed stays fixed by default so every trial has the same starting position.
+Add `--vary-seed` to use seeds `110`, `111`, and so on. Simulator display/audio
+options can be passed after `--`, for example `-- --muted`.
+
 `--record-human` is limited to single-car manual mode and cannot be combined
 with `--student-module` or `h2h`. The recording format does not prescribe an
 observation vector, normalization strategy, imitation objective, or train/test
