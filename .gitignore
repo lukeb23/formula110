@@ -8,3 +8,5 @@ dist/
 build/
 artifacts/*
 !artifacts/.gitkeep
+!artifacts/controller-driving
+!artifacts/human-driving
