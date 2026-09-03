@@ -104,6 +104,15 @@ uv run racing-record-human-trials --trials 5 --seed 110 \
   --output-dir artifacts/human-driving
 ```
 
+To capture separate trajectories from any student controller:
+
+```bash
+uv run racing-record-controller-trials \
+  --student-module path/to/controller.py \
+  --trials 5 --seed 110 \
+  --output-dir artifacts/controller-driving
+```
+
 ## 4. Run the starter controller
 
 The intentionally tiny controller in `src/controllers/crash_fast.py` always

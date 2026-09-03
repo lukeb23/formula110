@@ -242,6 +242,40 @@ with `--student-module` or `h2h`. The recording format does not prescribe an
 observation vector, normalization strategy, imitation objective, or train/test
 split.
 
+### Capturing controller trajectories
+
+Controller-generated observation/action pairs use a distinct
+`controller_control_step` record type and include `control_source` provenance.
+Capture several runs of any controller with:
+
+```bash
+uv run racing-record-controller-trials \
+  --student-module path/to/controller.py \
+  --trials 5 \
+  --seed 110 \
+  --output-dir artifacts/controller-driving
+```
+
+Close the simulator window to finish each trial and launch the next one. The
+output layout matches human capture: one JSONL trajectory per trial plus a run
+manifest. For file-based controllers, the manifest also stores a SHA-256 digest
+of the source so a dataset can be tied to the exact policy that generated it.
+Add `--vary-seed` for different starting positions or pass simulator
+options after `--`, such as `-- --muted`.
+
+For a single controller run without the multi-trial launcher:
+
+```bash
+uv run racing \
+  --student-module path/to/controller.py \
+  --seed 110 \
+  --record-controller artifacts/controller-driving.jsonl
+```
+
+Keep human and controller files distinguishable during training; controller
+rows are useful for behavior cloning but should not be presented as human
+demonstrations.
+
 ## Comparing controllers
 
 Use a watched race when you need to understand behavior:

@@ -83,6 +83,9 @@ class GameConfig:
     spawn_heading_degrees: float | None = None
     spawn_progress_distance_m: float | None = None
     human_recording_path: Path | None = None
+    controller_recording_path: Path | None = None
+    controller_recording_source: str | None = None
+    controller_recording_function: str = "control"
     audio: RacingAudioConfig = field(default_factory=RacingAudioConfig)
 
 

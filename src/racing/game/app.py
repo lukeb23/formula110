@@ -19,7 +19,7 @@ from racing.game.config import (
     configure_window,
     fps_text_for_delta,
 )
-from racing.game.recording import HumanGameplayRecorder
+from racing.game.recording import ControllerGameplayRecorder, HumanGameplayRecorder
 from racing.graphics.camera import (
     FORMULA_DRONE_CAMERA_SETTINGS,
     FORMULA_FOLLOW_CAMERA_SETTINGS,
@@ -223,6 +223,10 @@ def build_scene(config: GameConfig) -> RunnableApp:
         raise ValueError("fixed_delta_seconds must be positive")
     if config.human_recording_path is not None and config.student_controller is not None:
         raise ValueError("human gameplay recording is only available with manual control")
+    if config.controller_recording_path is not None and config.student_controller is None:
+        raise ValueError("controller gameplay recording requires a student controller")
+    if config.human_recording_path is not None and config.controller_recording_path is not None:
+        raise ValueError("human and controller recording paths are mutually exclusive")
 
     app_kwargs: dict[str, Any] = {
         "title": config.title,
@@ -236,7 +240,17 @@ def build_scene(config: GameConfig) -> RunnableApp:
         app_kwargs["window_type"] = config.window_type
     ursina, app = _create_configured_ursina_app(app_kwargs=app_kwargs)
     human_recorder = None if config.human_recording_path is None else HumanGameplayRecorder(config.human_recording_path)
+    controller_recorder = (
+        None
+        if config.controller_recording_path is None
+        else ControllerGameplayRecorder(
+            config.controller_recording_path,
+            controller_module=config.controller_recording_source or "unknown",
+            control_function=config.controller_recording_function,
+        )
+    )
     app.human_gameplay_recorder = human_recorder
+    app.controller_gameplay_recorder = controller_recorder
     if config.window_type is None:
         configure_window(ursina.window, config)
     app.setBackgroundColor(*NIGHT_SKY_COLOR)
@@ -389,6 +403,12 @@ def build_scene(config: GameConfig) -> RunnableApp:
                         previous_state=sensor_state,
                     )
                     command = config.student_controller(sensors)
+                    if controller_recorder is not None:
+                        controller_recorder.record(
+                            simulation_time_s=simulation_time_s,
+                            sensors=sensors,
+                            command=command,
+                        )
                 audio_runtime.record_command(robot, command)
                 apply_robot_vehicle_command(robot=robot, command=command)
             physics_scene.step(config.fixed_delta_seconds)

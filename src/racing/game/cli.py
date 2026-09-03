@@ -92,6 +92,13 @@ def build_argument_parser() -> argparse.ArgumentParser:
         help="append one JSON object per manual-control tick to a JSONL file",
     )
     parser.add_argument(
+        "--record-controller",
+        type=Path,
+        default=None,
+        metavar="PATH",
+        help="append one JSON object per student-controller tick to a JSONL file",
+    )
+    parser.add_argument(
         "--camera",
         choices=tuple(view.value for view in CameraView),
         default=CameraView.DRONE.value,
@@ -267,10 +274,13 @@ def main(argv: Sequence[str] | None = None) -> None:
     parser = build_argument_parser()
     args = parser.parse_args(argv)
     human_recording_path = cast(Path | None, args.record_human)
+    controller_recording_path = cast(Path | None, args.record_controller)
 
     if getattr(args, "command", None) == "h2h":
         if human_recording_path is not None:
             parser.error("--record-human is only available in single-car manual mode")
+        if controller_recording_path is not None:
+            parser.error("--record-controller is only available in single-car student-controller mode")
         challenger_module = cast(str | None, args.challenger_module)
         incumbent_module = cast(str | None, args.incumbent_module)
         challenger_keyboard = bool(args.challenger_keyboard)
@@ -390,6 +400,8 @@ def main(argv: Sequence[str] | None = None) -> None:
     student_module = cast(str | None, args.student_module)
     if student_module is not None and human_recording_path is not None:
         parser.error("--record-human cannot be combined with --student-module")
+    if student_module is None and controller_recording_path is not None:
+        parser.error("--record-controller requires --student-module")
     student_submission: StudentControllerSubmission | None = None
     if student_module is not None:
         student_submission = _load_submission_from_args(
@@ -408,10 +420,15 @@ def main(argv: Sequence[str] | None = None) -> None:
             random_seed=int(args.seed),
             window_type=cast(str | None, args.window_type),
             human_recording_path=human_recording_path,
+            controller_recording_path=controller_recording_path,
+            controller_recording_source=student_module,
+            controller_recording_function=str(args.control_function),
             team_color=_student_submission_color(student_submission, _team_color_from_args(args)),
             audio=_audio_config_from_args(args),
         )
     )
     if human_recording_path is not None:
         print(f"Recording human gameplay to {human_recording_path.resolve()}")
+    if controller_recording_path is not None:
+        print(f"Recording controller gameplay to {controller_recording_path.resolve()}")
     playable_app.run()

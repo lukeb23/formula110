@@ -171,6 +171,34 @@ def test_cli_passes_human_recording_path_to_playable_config(tmp_path: Path, monk
     assert captured_config.human_recording_path == recording_path
 
 
+def test_cli_passes_controller_recording_and_source_to_playable_config(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    recording_path = tmp_path / "controller.jsonl"
+    captured_config: GameConfig | None = None
+
+    def fake_create_app(config: GameConfig) -> _FakeApp:
+        nonlocal captured_config
+        captured_config = config
+        return _FakeApp()
+
+    monkeypatch.setattr(cli, "create_app", fake_create_app)
+
+    cli.main(
+        [
+            "--student-module",
+            "controllers.crash_fast",
+            "--record-controller",
+            str(recording_path),
+        ]
+    )
+
+    assert captured_config is not None
+    assert captured_config.controller_recording_path == recording_path
+    assert captured_config.controller_recording_source == "controllers.crash_fast"
+    assert captured_config.controller_recording_function == "control"
+
+
 def test_cli_passes_seed_to_playable_config(monkeypatch: pytest.MonkeyPatch) -> None:
     captured_config: GameConfig | None = None
 
@@ -202,6 +230,16 @@ def test_cli_rejects_recording_an_automated_controller(tmp_path: Path) -> None:
 def test_cli_rejects_human_recording_in_head_to_head_mode(tmp_path: Path) -> None:
     with pytest.raises(SystemExit):
         cli.main(["--record-human", str(tmp_path / "human.jsonl"), "h2h"])
+
+
+def test_cli_rejects_controller_recording_without_student_module(tmp_path: Path) -> None:
+    with pytest.raises(SystemExit):
+        cli.main(["--record-controller", str(tmp_path / "controller.jsonl")])
+
+
+def test_cli_rejects_controller_recording_in_head_to_head_mode(tmp_path: Path) -> None:
+    with pytest.raises(SystemExit):
+        cli.main(["--record-controller", str(tmp_path / "controller.jsonl"), "h2h"])
 
 
 def test_playable_student_color_overrides_cli_team_color(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:

@@ -119,6 +119,11 @@ def test_playable_scene_rejects_human_recording_with_student_controller(tmp_path
         )
 
 
+def test_playable_scene_rejects_controller_recording_without_student_controller(tmp_path: Path) -> None:
+    with pytest.raises(ValueError, match="requires a student controller"):
+        build_scene(GameConfig(controller_recording_path=tmp_path / "invalid.jsonl"))
+
+
 def test_default_head_to_head_colors_use_fordham_fountain_versus_carolina_blue() -> None:
     assert DEFAULT_CHALLENGER_TEAM_COLOR == UNC_FORDHAM_FOUNTAIN
     assert DEFAULT_INCUMBENT_TEAM_COLOR == UNC_CAROLINA_BLUE

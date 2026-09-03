@@ -2,8 +2,11 @@
 
 from racing.game.config import CameraView, GameConfig, HeadToHeadViewerConfig, RacingAudioConfig
 from racing.game.recording import (
+    CONTROLLER_GAMEPLAY_SCHEMA_VERSION,
     HUMAN_GAMEPLAY_SCHEMA_VERSION,
+    ControllerGameplayRecorder,
     HumanGameplayRecorder,
+    controller_gameplay_record,
     human_gameplay_record,
     robot_command_to_dict,
     robot_sensors_to_dict,
@@ -65,6 +68,7 @@ from racing.track.world import (
 )
 
 __all__ = [
+    "CONTROLLER_GAMEPLAY_SCHEMA_VERSION",
     "HUMAN_GAMEPLAY_SCHEMA_VERSION",
     "MUGELLO_SHORT_LAYOUT",
     "NOMINAL_CAR_WIDTH",
@@ -77,6 +81,7 @@ __all__ = [
     "CameraSensors",
     "CameraView",
     "ContactSensors",
+    "ControllerGameplayRecorder",
     "GameConfig",
     "HeadToHeadRaceEntry",
     "HeadToHeadRaceResult",
@@ -108,6 +113,7 @@ __all__ = [
     "clamp_command",
     "classify_head_to_head_winner",
     "closed_track_points",
+    "controller_gameplay_record",
     "create_app",
     "create_head_to_head_viewer_app",
     "default_student_controller",
