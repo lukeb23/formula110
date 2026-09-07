@@ -15,13 +15,14 @@ dependencies = [
 racing = "racing:main"
 racing-record-human-trials = "racing.game.human_trials:main"
 racing-record-controller-trials = "racing.game.controller_trials:main"
+racing-watch-policy = "training.watch_policy:main"
 
 [build-system]
 requires = ["uv_build>=0.10.6,<0.11.0"]
 build-backend = "uv_build"
 
 [tool.uv.build-backend]
-module-name = ["racing", "controllers"]
+module-name = ["racing", "controllers", "training"]
 
 [dependency-groups]
 dev = [
