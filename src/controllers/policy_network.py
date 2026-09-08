@@ -16,6 +16,7 @@ from controllers.observation import OBSERVATION_SIZE
 
 ACTION_FIELDS: tuple[str, ...] = ("steer", "throttle")
 ACTION_SIZE = len(ACTION_FIELDS)
+PARAMETER_MUTATION_SCOPES: tuple[str, ...] = ("all", "output", "steer_output", "throttle_output")
 HIDDEN_SIZE = 32
 POLICY_ARCHITECTURE = "12->32->ReLU->32->ReLU->2->tanh"
 CHECKPOINT_SCHEMA_VERSION = 1
@@ -60,6 +61,36 @@ def load_parameter_vector(policy: PolicyNetwork, vector: Tensor) -> None:
             count = parameter.numel()
             parameter.copy_(flat[offset : offset + count].reshape(parameter.shape))
             offset += count
+
+
+def parameter_mutation_mask(policy: PolicyNetwork, scope: str) -> Tensor:
+    """Return a flat mask for a named portion of the shared policy parameters."""
+    if scope not in PARAMETER_MUTATION_SCOPES:
+        valid = ", ".join(PARAMETER_MUTATION_SCOPES)
+        raise ValueError(f"unknown mutation scope {scope!r}; expected one of: {valid}")
+    if scope == "all":
+        return torch.ones(parameter_count(), dtype=torch.bool)
+
+    output_layer = next(layer for layer in reversed(policy.layers) if isinstance(layer, nn.Linear))
+    action_index = None
+    if scope.endswith("_output") and scope != "output":
+        action_index = ACTION_FIELDS.index(scope.removesuffix("_output"))
+
+    masks: list[Tensor] = []
+    for parameter in policy.parameters():
+        mask = torch.zeros(parameter.shape, dtype=torch.bool)
+        if parameter is output_layer.weight:
+            if action_index is None:
+                mask.fill_(True)
+            else:
+                mask[action_index].fill_(True)
+        elif parameter is output_layer.bias:
+            if action_index is None:
+                mask.fill_(True)
+            else:
+                mask[action_index] = True
+        masks.append(mask.reshape(-1))
+    return torch.cat(masks)
 
 
 def policy_metadata() -> dict[str, object]:
