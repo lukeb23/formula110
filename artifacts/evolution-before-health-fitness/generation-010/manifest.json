@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "generation": 10,
+  "population_size": 10,
+  "elite_count": 2,
+  "mutation_std": 0.05,
+  "candidates": [
+    {
+      "index": 0,
+      "origin": "elite",
+      "parent_index": 2,
+      "path": "policy-000-elite.pt",
+      "sha256": "e7ed2ee8c55617f581f72b9d79051f5a5ed215065734408cbc8d2284ee9fa1b9"
+    },
+    {
+      "index": 1,
+      "origin": "elite",
+      "parent_index": 0,
+      "path": "policy-001-elite.pt",
+      "sha256": "dd11a11a5785f1c4a7ae6d24b429914727f3e1e815d88aa78086b61d56e3db13"
+    },
+    {
+      "index": 2,
+      "origin": "mutated",
+      "parent_index": 2,
+      "path": "policy-002-mutated.pt",
+      "sha256": "906d051c071b23d24a4f2b26dc178dd24fa24d4a724efa19a20f6e6c33547889"
+    },
+    {
+      "index": 3,
+      "origin": "mutated",
+      "parent_index": 0,
+      "path": "policy-003-mutated.pt",
+      "sha256": "5b964873501b4688e7b2dc5264322274d9d91bb3633131174432d7b137159b65"
+    },
+    {
+      "index": 4,
+      "origin": "mutated",
+      "parent_index": 2,
+      "path": "policy-004-mutated.pt",
+      "sha256": "d382c92df2144e05a1ea5e797f519dd93c6e821edd718fdc8000cbab69e05b0a"
+    },
+    {
+      "index": 5,
+      "origin": "mutated",
+      "parent_index": 0,
+      "path": "policy-005-mutated.pt",
+      "sha256": "9e5200c2e34e82d66750548c8809cf6b83a60e80caa2d8dff92bff258ce2d211"
+    },
+    {
+      "index": 6,
+      "origin": "mutated",
+      "parent_index": 2,
+      "path": "policy-006-mutated.pt",
+      "sha256": "502d51868ead733ca569a5e292888202c6b825e513668e383a1433a548fdc973"
+    },
+    {
+      "index": 7,
+      "origin": "mutated",
+      "parent_index": 0,
+      "path": "policy-007-mutated.pt",
+      "sha256": "e2d7a5d94e181bd55e0b5b7088f7ceeb8ba3a750479e7cee90420aa3cfef7a53"
+    },
+    {
+      "index": 8,
+      "origin": "mutated",
+      "parent_index": 2,
+      "path": "policy-008-mutated.pt",
+      "sha256": "f12e8486ff2c6e4061faf5e8a64d4e02dd524761ec85b1dc4ec983945a943b1d"
+    },
+    {
+      "index": 9,
+      "origin": "mutated",
+      "parent_index": 0,
+      "path": "policy-009-mutated.pt",
+      "sha256": "fa8d1550d598c1f3fb5c686cc6db87c9e26e079836abce0b31d57eb68d02d79b"
+    }
+  ]
+}

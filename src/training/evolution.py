@@ -107,16 +107,21 @@ def run_evolution(
         if config.generations <= completed_count:
             raise ValueError(f"resume target must exceed {completed_count} completed generations")
         _validate_resume_config(experiment, config, initial_population_dir, population_size)
-        previous_dir = root / f"generation-{completed_count - 1:03d}"
-        previous_ranked = _load_ranking(previous_dir / "results.json")
-        generation_dir = create_next_generation(
-            previous_ranked,
-            source_dir=previous_dir,
-            output_dir=root / f"generation-{completed_count:03d}",
-            generation_index=completed_count,
-            population_size=population_size,
-            config=config,
-        )
+        if completed_count == 0:
+            # The experiment manifest is durable before the first evaluation.
+            # An interruption here must reuse the original population.
+            generation_dir = initial_population_dir
+        else:
+            previous_dir = root / f"generation-{completed_count - 1:03d}"
+            previous_ranked = _load_ranking(previous_dir / "results.json")
+            generation_dir = create_next_generation(
+                previous_ranked,
+                source_dir=previous_dir,
+                output_dir=root / f"generation-{completed_count:03d}",
+                generation_index=completed_count,
+                population_size=population_size,
+                config=config,
+            )
         experiment_config = cast(dict[str, object], experiment["config"])
         experiment_config["generations"] = config.generations
         experiment["status"] = "running"

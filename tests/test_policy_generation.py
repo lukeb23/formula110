@@ -52,7 +52,8 @@ def test_parameter_vector_round_trip_preserves_values_and_shapes() -> None:
     assert torch.equal(vector, flatten_parameters(restored))
 
 
-def test_behavior_clone_training_is_reproducible() -> None:
+@pytest.mark.parametrize("loss", ["mse", "smooth_l1"])
+def test_behavior_clone_training_is_reproducible(loss: str) -> None:
     observations = np.zeros((8, 12), dtype=np.float32)
     observations[:, 7] = np.linspace(-1.0, 1.0, 8, dtype=np.float32)
     actions = np.column_stack((observations[:, 7], np.full(8, 0.5, dtype=np.float32))).astype(np.float32)
@@ -62,13 +63,14 @@ def test_behavior_clone_training_is_reproducible() -> None:
         session_ids=("a", "a", "b", "b", "c", "c", "d", "d"),
         source_paths=(),
     )
-    config = BehaviorCloningConfig(seed=31, epochs=2, batch_size=2, validation_fraction=0.25)
+    config = BehaviorCloningConfig(seed=31, epochs=2, batch_size=2, validation_fraction=0.25, loss=loss)
 
     first, first_metadata = train_behavior_clone(dataset, config)
     second, second_metadata = train_behavior_clone(dataset, config)
 
     assert torch.equal(flatten_parameters(first), flatten_parameters(second))
     assert first_metadata["training"] == second_metadata["training"]
+    assert cast(dict[str, object], first_metadata["training"])["loss"] == loss
 
 
 def test_population_is_equal_independent_and_reproducible(tmp_path: Path) -> None:

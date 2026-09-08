@@ -1,0 +1,483 @@
+{
+  "schema_version": 1,
+  "generation": 85,
+  "population_size": 50,
+  "elite_count": 5,
+  "mutation_std": 0.002,
+  "mutation_stds": [
+    0.01,
+    0.01,
+    0.005,
+    0.002,
+    0.015,
+    0.04
+  ],
+  "mutation_weights": [
+    0.23,
+    0.23,
+    0.2,
+    0.19,
+    0.1,
+    0.05
+  ],
+  "mutation_scopes": [
+    "steer_output",
+    "throttle_output",
+    "output",
+    "all",
+    "all",
+    "all"
+  ],
+  "candidates": [
+    {
+      "index": 0,
+      "origin": "elite",
+      "parent_index": 27,
+      "mutation_std": 0.0,
+      "mutation_scope": "none",
+      "path": "policy-000-elite.pt",
+      "sha256": "036103b31aae79f1e49e753685145aedd5ebb2aa7bd1b647237d46d37a130e84"
+    },
+    {
+      "index": 1,
+      "origin": "elite",
+      "parent_index": 0,
+      "mutation_std": 0.0,
+      "mutation_scope": "none",
+      "path": "policy-001-elite.pt",
+      "sha256": "27b72b1c0a00bd188ea0d0e779e204320ccc1a42b641296b5e5f1b5649e92878"
+    },
+    {
+      "index": 2,
+      "origin": "elite",
+      "parent_index": 1,
+      "mutation_std": 0.0,
+      "mutation_scope": "none",
+      "path": "policy-002-elite.pt",
+      "sha256": "ec0e9eea9ac345cd1c91590551a5f18539c410fcfe7d50968ed5dec5311ecddc"
+    },
+    {
+      "index": 3,
+      "origin": "elite",
+      "parent_index": 2,
+      "mutation_std": 0.0,
+      "mutation_scope": "none",
+      "path": "policy-003-elite.pt",
+      "sha256": "dc95e035a6f865d6ceddc004336484fdc4e5481aed3acef9d6cf8847cd09e696"
+    },
+    {
+      "index": 4,
+      "origin": "elite",
+      "parent_index": 3,
+      "mutation_std": 0.0,
+      "mutation_scope": "none",
+      "path": "policy-004-elite.pt",
+      "sha256": "cb7fac7812a43a02c7666e005c3497d376ce67d541a6bdc3f4cf085614aba19c"
+    },
+    {
+      "index": 5,
+      "origin": "mutated",
+      "parent_index": 27,
+      "mutation_std": 0.01,
+      "mutation_scope": "steer_output",
+      "path": "policy-005-mutated.pt",
+      "sha256": "01e56a5b8db3848ee60357c8eff6655529fb795eaf340117a39272277159a9ee"
+    },
+    {
+      "index": 6,
+      "origin": "mutated",
+      "parent_index": 0,
+      "mutation_std": 0.01,
+      "mutation_scope": "steer_output",
+      "path": "policy-006-mutated.pt",
+      "sha256": "d2848a7bfca2b75831dc27cd931781ede39df47bb142c11dc13cd42218d3b47f"
+    },
+    {
+      "index": 7,
+      "origin": "mutated",
+      "parent_index": 1,
+      "mutation_std": 0.01,
+      "mutation_scope": "steer_output",
+      "path": "policy-007-mutated.pt",
+      "sha256": "c5d75df2e29dc19ce3528dc4c963424ecee60a998439d221c5ec37573cd904f9"
+    },
+    {
+      "index": 8,
+      "origin": "mutated",
+      "parent_index": 2,
+      "mutation_std": 0.01,
+      "mutation_scope": "steer_output",
+      "path": "policy-008-mutated.pt",
+      "sha256": "546854aec4a76af6afc2125bbb75e0128cbcaf2250952f1c2197fd5a676854b8"
+    },
+    {
+      "index": 9,
+      "origin": "mutated",
+      "parent_index": 3,
+      "mutation_std": 0.01,
+      "mutation_scope": "steer_output",
+      "path": "policy-009-mutated.pt",
+      "sha256": "6374632b2b0511a43ab1069eda20a22374602f6c29da3bc31d6c029e4f882700"
+    },
+    {
+      "index": 10,
+      "origin": "mutated",
+      "parent_index": 27,
+      "mutation_std": 0.01,
+      "mutation_scope": "steer_output",
+      "path": "policy-010-mutated.pt",
+      "sha256": "9d7e99de0a80d6533d11faa2484417b88a1757b2d23bd8cf8083b0dec155fa56"
+    },
+    {
+      "index": 11,
+      "origin": "mutated",
+      "parent_index": 0,
+      "mutation_std": 0.01,
+      "mutation_scope": "steer_output",
+      "path": "policy-011-mutated.pt",
+      "sha256": "413dd8243ed2941202600e5bbe93aa411511f01daffc6248a0de99c1f2434b59"
+    },
+    {
+      "index": 12,
+      "origin": "mutated",
+      "parent_index": 1,
+      "mutation_std": 0.01,
+      "mutation_scope": "steer_output",
+      "path": "policy-012-mutated.pt",
+      "sha256": "db1368ff0c7713e3ded253c7f2a93a7e55baf63fac7eb13b018cf4da10679da6"
+    },
+    {
+      "index": 13,
+      "origin": "mutated",
+      "parent_index": 2,
+      "mutation_std": 0.01,
+      "mutation_scope": "steer_output",
+      "path": "policy-013-mutated.pt",
+      "sha256": "54bf0ba6cdbdb840ae12c68b636ee1dbac0a803d8003d4214f3fc8ed686bb89b"
+    },
+    {
+      "index": 14,
+      "origin": "mutated",
+      "parent_index": 3,
+      "mutation_std": 0.01,
+      "mutation_scope": "steer_output",
+      "path": "policy-014-mutated.pt",
+      "sha256": "240db3d1a670a828f2fde1982b2969a2f691fd91c64285616cce3da04d60bd37"
+    },
+    {
+      "index": 15,
+      "origin": "mutated",
+      "parent_index": 27,
+      "mutation_std": 0.01,
+      "mutation_scope": "throttle_output",
+      "path": "policy-015-mutated.pt",
+      "sha256": "fc258e861c1b73192dfa02d4540c60ba48cc3ec493b6863e373fcc111f2b092a"
+    },
+    {
+      "index": 16,
+      "origin": "mutated",
+      "parent_index": 0,
+      "mutation_std": 0.01,
+      "mutation_scope": "throttle_output",
+      "path": "policy-016-mutated.pt",
+      "sha256": "5205f88262b0221ae1604360b29ceb977471110da80db85c4c6f20d81d3bb2d4"
+    },
+    {
+      "index": 17,
+      "origin": "mutated",
+      "parent_index": 1,
+      "mutation_std": 0.01,
+      "mutation_scope": "throttle_output",
+      "path": "policy-017-mutated.pt",
+      "sha256": "5ae7271dfb7033a6924fa515c447ccef5363b0178e98b28544a51dcedb7a9cb7"
+    },
+    {
+      "index": 18,
+      "origin": "mutated",
+      "parent_index": 2,
+      "mutation_std": 0.01,
+      "mutation_scope": "throttle_output",
+      "path": "policy-018-mutated.pt",
+      "sha256": "889ba6f5900cee646422d2585eb6ee59136a7d53c27bab4dc73c7572885fbb59"
+    },
+    {
+      "index": 19,
+      "origin": "mutated",
+      "parent_index": 3,
+      "mutation_std": 0.01,
+      "mutation_scope": "throttle_output",
+      "path": "policy-019-mutated.pt",
+      "sha256": "35130e908ed5960d5a857517df9545035984e4da171c8fbb08c8fdeeaaf7a293"
+    },
+    {
+      "index": 20,
+      "origin": "mutated",
+      "parent_index": 27,
+      "mutation_std": 0.01,
+      "mutation_scope": "throttle_output",
+      "path": "policy-020-mutated.pt",
+      "sha256": "0f1905634857a4e4c9cffb488adb24532f53d497344e2f1722a7b9b1167fb9ee"
+    },
+    {
+      "index": 21,
+      "origin": "mutated",
+      "parent_index": 0,
+      "mutation_std": 0.01,
+      "mutation_scope": "throttle_output",
+      "path": "policy-021-mutated.pt",
+      "sha256": "69b7ad63a3313e686d7e8b23311825fa9ce53743c401eefa60fcc9e770c0b4f3"
+    },
+    {
+      "index": 22,
+      "origin": "mutated",
+      "parent_index": 1,
+      "mutation_std": 0.01,
+      "mutation_scope": "throttle_output",
+      "path": "policy-022-mutated.pt",
+      "sha256": "4b7ae4c754ca8f2af2fda86da832d90867c5251ce4bc92272fed93a92aa73676"
+    },
+    {
+      "index": 23,
+      "origin": "mutated",
+      "parent_index": 2,
+      "mutation_std": 0.01,
+      "mutation_scope": "throttle_output",
+      "path": "policy-023-mutated.pt",
+      "sha256": "3d711b5a9e976387cc23aab590e27e49620da4b01e32e088299a7a4ca0ffb49a"
+    },
+    {
+      "index": 24,
+      "origin": "mutated",
+      "parent_index": 3,
+      "mutation_std": 0.01,
+      "mutation_scope": "throttle_output",
+      "path": "policy-024-mutated.pt",
+      "sha256": "0dbcfe1d18881b44ae969bbbfc4f9e4255c035815f8f6772265a7ea71514d727"
+    },
+    {
+      "index": 25,
+      "origin": "mutated",
+      "parent_index": 27,
+      "mutation_std": 0.005,
+      "mutation_scope": "output",
+      "path": "policy-025-mutated.pt",
+      "sha256": "84c92fbb64bb4e8b4086cfd61c9a6b51b0af43adbe2d157fc9eafdb67b300f9f"
+    },
+    {
+      "index": 26,
+      "origin": "mutated",
+      "parent_index": 0,
+      "mutation_std": 0.005,
+      "mutation_scope": "output",
+      "path": "policy-026-mutated.pt",
+      "sha256": "73f4f4a8d3cb6ff7c8c68fc179d26612f9a2c6afdad98376d03545541e18a444"
+    },
+    {
+      "index": 27,
+      "origin": "mutated",
+      "parent_index": 1,
+      "mutation_std": 0.005,
+      "mutation_scope": "output",
+      "path": "policy-027-mutated.pt",
+      "sha256": "24627146e8dfbc5c1a1b059f5fbafd0ab27cc8be8539e9f6adc690302ad8d46f"
+    },
+    {
+      "index": 28,
+      "origin": "mutated",
+      "parent_index": 2,
+      "mutation_std": 0.005,
+      "mutation_scope": "output",
+      "path": "policy-028-mutated.pt",
+      "sha256": "8f6bdee8f1166a327324ba95711174c14321166cef106223dc2b41800c856a2d"
+    },
+    {
+      "index": 29,
+      "origin": "mutated",
+      "parent_index": 3,
+      "mutation_std": 0.005,
+      "mutation_scope": "output",
+      "path": "policy-029-mutated.pt",
+      "sha256": "2b925867cef15f2d8918dd298565b0c90b446c12a426bf84631c8668ea48083a"
+    },
+    {
+      "index": 30,
+      "origin": "mutated",
+      "parent_index": 27,
+      "mutation_std": 0.005,
+      "mutation_scope": "output",
+      "path": "policy-030-mutated.pt",
+      "sha256": "ec34e1ff30868c1a910295c1bd9aa6e2933b12350457792191d64209add9c486"
+    },
+    {
+      "index": 31,
+      "origin": "mutated",
+      "parent_index": 0,
+      "mutation_std": 0.005,
+      "mutation_scope": "output",
+      "path": "policy-031-mutated.pt",
+      "sha256": "ee06cee848f04203e45c82af6abfec33770428c580fa29d52bf5bcc1e9cad9df"
+    },
+    {
+      "index": 32,
+      "origin": "mutated",
+      "parent_index": 1,
+      "mutation_std": 0.005,
+      "mutation_scope": "output",
+      "path": "policy-032-mutated.pt",
+      "sha256": "ff82a4cae13d05ccab6901bb12d9a919bef3001851bd81f79e31d61f1d5eb10c"
+    },
+    {
+      "index": 33,
+      "origin": "mutated",
+      "parent_index": 2,
+      "mutation_std": 0.005,
+      "mutation_scope": "output",
+      "path": "policy-033-mutated.pt",
+      "sha256": "dceef54224c11c728012695dafa30bc2449877662e97c7b93ceec9a7c5bf3352"
+    },
+    {
+      "index": 34,
+      "origin": "mutated",
+      "parent_index": 3,
+      "mutation_std": 0.002,
+      "mutation_scope": "all",
+      "path": "policy-034-mutated.pt",
+      "sha256": "77b704a87c83d32ec500685ac4b41feb78e4066024d68165da65ba6b42719d12"
+    },
+    {
+      "index": 35,
+      "origin": "mutated",
+      "parent_index": 27,
+      "mutation_std": 0.002,
+      "mutation_scope": "all",
+      "path": "policy-035-mutated.pt",
+      "sha256": "5911865d8d72646769504d09724b985f6a44d79eb1d3d9685b94d3fd43bc7738"
+    },
+    {
+      "index": 36,
+      "origin": "mutated",
+      "parent_index": 0,
+      "mutation_std": 0.002,
+      "mutation_scope": "all",
+      "path": "policy-036-mutated.pt",
+      "sha256": "18b0aef22a05c21d1b9bfe57cb8e0b3854904d2fabaff44ee4ed492c5b03dbbe"
+    },
+    {
+      "index": 37,
+      "origin": "mutated",
+      "parent_index": 1,
+      "mutation_std": 0.002,
+      "mutation_scope": "all",
+      "path": "policy-037-mutated.pt",
+      "sha256": "e687582fbde5ab5e139edbcb2f328682baeeeffbee3c9d945dfa7122900cc52c"
+    },
+    {
+      "index": 38,
+      "origin": "mutated",
+      "parent_index": 2,
+      "mutation_std": 0.002,
+      "mutation_scope": "all",
+      "path": "policy-038-mutated.pt",
+      "sha256": "05feb5040fcdddaee9a303f506ef8424147cc43134340c67e0f39efe808cbd83"
+    },
+    {
+      "index": 39,
+      "origin": "mutated",
+      "parent_index": 3,
+      "mutation_std": 0.002,
+      "mutation_scope": "all",
+      "path": "policy-039-mutated.pt",
+      "sha256": "65b07a4a8aed615fe423f08e495b00d8b52281383b9582b8ae316d9f3a533156"
+    },
+    {
+      "index": 40,
+      "origin": "mutated",
+      "parent_index": 27,
+      "mutation_std": 0.002,
+      "mutation_scope": "all",
+      "path": "policy-040-mutated.pt",
+      "sha256": "31f30e340104a6830297d4f37711243261835d427976c07cfc3a3ff397bbe364"
+    },
+    {
+      "index": 41,
+      "origin": "mutated",
+      "parent_index": 0,
+      "mutation_std": 0.002,
+      "mutation_scope": "all",
+      "path": "policy-041-mutated.pt",
+      "sha256": "2a82cf86219eb30d4ee76eb0a5281fb1e9d7445c29d6d015d63bfd532bc3036d"
+    },
+    {
+      "index": 42,
+      "origin": "mutated",
+      "parent_index": 1,
+      "mutation_std": 0.002,
+      "mutation_scope": "all",
+      "path": "policy-042-mutated.pt",
+      "sha256": "65a2cbc60251f69129082456a085e8cac80d3464e07584cacd1d6235e3a13f84"
+    },
+    {
+      "index": 43,
+      "origin": "mutated",
+      "parent_index": 2,
+      "mutation_std": 0.015,
+      "mutation_scope": "all",
+      "path": "policy-043-mutated.pt",
+      "sha256": "c1df480e36515c06aec1e954f921c4561d97e46df5ad4020b07c529eb49b1e3a"
+    },
+    {
+      "index": 44,
+      "origin": "mutated",
+      "parent_index": 3,
+      "mutation_std": 0.015,
+      "mutation_scope": "all",
+      "path": "policy-044-mutated.pt",
+      "sha256": "76a3c3aacdc5a5c722f4713faf428e16efba667b096c565767ad6abc08d2e641"
+    },
+    {
+      "index": 45,
+      "origin": "mutated",
+      "parent_index": 27,
+      "mutation_std": 0.015,
+      "mutation_scope": "all",
+      "path": "policy-045-mutated.pt",
+      "sha256": "4020004d850cbb02a7c9f7aae5cad1f3cdd1f121716a090b5fa16e43ccd67faf"
+    },
+    {
+      "index": 46,
+      "origin": "mutated",
+      "parent_index": 0,
+      "mutation_std": 0.015,
+      "mutation_scope": "all",
+      "path": "policy-046-mutated.pt",
+      "sha256": "a58c5586d3415caf7dc282a34fb39e35d41cf4d43239d555a62682a40e7e7fd0"
+    },
+    {
+      "index": 47,
+      "origin": "mutated",
+      "parent_index": 1,
+      "mutation_std": 0.015,
+      "mutation_scope": "all",
+      "path": "policy-047-mutated.pt",
+      "sha256": "e88e15ae2aa492733720cc8289a434d3a40401167799c86b501f52a68bb91263"
+    },
+    {
+      "index": 48,
+      "origin": "mutated",
+      "parent_index": 2,
+      "mutation_std": 0.04,
+      "mutation_scope": "all",
+      "path": "policy-048-mutated.pt",
+      "sha256": "97c4144633ca7d173e9d9ea0abb49694497bd81688ac08e85d13e20b18cdf1f6"
+    },
+    {
+      "index": 49,
+      "origin": "mutated",
+      "parent_index": 3,
+      "mutation_std": 0.04,
+      "mutation_scope": "all",
+      "path": "policy-049-mutated.pt",
+      "sha256": "61ca52a04bcb19e8bdfaa7a9638e6bf135bce4ea0e8006d402099d2adee9b7a2"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "accepted_trials": 10,
+  "total_rows": 23461,
+  "new_trials_seeds": [
+    115,
+    116,
+    117,
+    118,
+    119
+  ],
+  "mean_scored_distance_m": 55.661164445710924,
+  "aggregate_fitness": -158.41147340387107,
+  "total_laps": 0,
+  "bc_injection": false,
+  "reason": "Direct simulator validation failed; zero laps on five seeds.",
+  "previous_checkpoint_preserved": true
+}

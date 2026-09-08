@@ -16,10 +16,45 @@ from controllers.policy_network import (
 )
 from racing import HeadToHeadTeamRaceStats
 from training.evaluate import FitnessConfig, FitnessResult, fitness_from_stats
-from training.evolution import CandidateEvaluation, EvolutionConfig, create_next_generation, run_new_phase
+from training.evolution import (
+    CandidateEvaluation,
+    EvolutionConfig,
+    create_next_generation,
+    run_evolution,
+    run_new_phase,
+)
 
 # PyTorch and pytest expose a few intentionally dynamic helpers.
 # pyright: reportUnknownMemberType=false
+
+
+def test_resume_before_first_generation_preserves_population(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    initial = tmp_path / "generation-000"
+    initial.mkdir()
+    (initial / "manifest.json").write_text(json.dumps({"population_size": 2}))
+    checkpoint = initial / "policy.pt"
+    checkpoint.write_bytes(b"preserve checkpoint")
+    config = EvolutionConfig(generations=1, elite_count=1)
+
+    def interrupted(*args: object, **kwargs: object) -> list[CandidateEvaluation]:
+        raise KeyboardInterrupt
+
+    monkeypatch.setattr("training.evolution.evaluate_generation", interrupted)
+    with pytest.raises(KeyboardInterrupt):
+        run_evolution(initial, config)
+
+    def evaluate(
+        generation_dir: Path, config: EvolutionConfig, *, elite_cache: object = None
+    ) -> list[CandidateEvaluation]:
+        assert generation_dir == initial
+        assert checkpoint.read_bytes() == b"preserve checkpoint"
+        return [CandidateEvaluation(0, "policy.pt", "source", None, 1.0, (_fitness_result(1.0),))]
+
+    monkeypatch.setattr("training.evolution.evaluate_generation", evaluate)
+    result = run_evolution(initial, config, resume=True)
+    assert result["status"] == "complete"
+    assert (initial / "results.json").exists()
+    assert checkpoint.read_bytes() == b"preserve checkpoint"
 
 
 def test_fitness_rewards_distance_fast_laps_and_health() -> None:

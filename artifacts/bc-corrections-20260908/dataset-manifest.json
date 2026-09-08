@@ -1,0 +1,59 @@
+{
+  "trials": [
+    {
+      "path": "/Users/lukebriden/formula110/artifacts/human-driving-corrections/run-20260908T140107Z-b3ed8ef8/trial-001-seed-110.jsonl",
+      "seed": 110,
+      "rows": 2823,
+      "session_ids": [
+        "01008866031445569ceed7baf9812754"
+      ],
+      "sha256": "4bda5bdc40fc2ca44737248cbebd76b80b741504684cdd00c9cf81c931dd1b0b",
+      "replaces_original_trial": null
+    },
+    {
+      "path": "/Users/lukebriden/formula110/artifacts/human-driving-corrections/run-20260908T140107Z-b3ed8ef8/trial-003-seed-112.jsonl",
+      "seed": 112,
+      "rows": 1892,
+      "session_ids": [
+        "64b75e645a044cd2a60b6ffed1544863"
+      ],
+      "sha256": "e5ecd4a8794bb7f06b8a52e32cbaefa6f2d4f3544864feee021900602d97cc53",
+      "replaces_original_trial": null
+    },
+    {
+      "path": "/Users/lukebriden/formula110/artifacts/human-driving-corrections/run-20260908T140107Z-b3ed8ef8/trial-005-seed-114.jsonl",
+      "seed": 114,
+      "rows": 2229,
+      "session_ids": [
+        "2cac198e97fc4a14b3c2538b4b298421"
+      ],
+      "sha256": "a82fef4d52374327796e34e8deed1e41fe7627fd8e2ede453b32686a9a3f50f7",
+      "replaces_original_trial": null
+    },
+    {
+      "path": "/Users/lukebriden/formula110/artifacts/human-driving-corrections/run-20260908T140559Z-e6bae30b/trial-001-seed-111.jsonl",
+      "seed": 111,
+      "rows": 1548,
+      "session_ids": [
+        "76ec539d688a47019fa36f0a813abeca"
+      ],
+      "sha256": "22209f2695dc6dea48fbf2d8214534d4b22bbf2ce28fa1945ef1b5ef9bca0375",
+      "replaces_original_trial": 2
+    },
+    {
+      "path": "/Users/lukebriden/formula110/artifacts/human-driving-corrections/run-20260908T140633Z-2dab392a/trial-001-seed-113.jsonl",
+      "seed": 113,
+      "rows": 1721,
+      "session_ids": [
+        "09d23b9fa7cc410ab0ac20e07f75e634"
+      ],
+      "sha256": "9537c1c7eced7b09079542678a12f7c8e7dbeffa1b67d8ac58e9e2222bafc243",
+      "replaces_original_trial": 4
+    }
+  ],
+  "total_rows": 10213,
+  "excluded_original_trials": [
+    2,
+    4
+  ]
+}

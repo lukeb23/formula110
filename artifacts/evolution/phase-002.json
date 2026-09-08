@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "phase": 2,
+  "status": "complete",
+  "source_generation": 49,
+  "source_population": "/Users/lukebriden/formula110/artifacts/evolution/generation-049",
+  "source_population_size": 20,
+  "population_size": 20,
+  "config": {
+    "generations": 5,
+    "elite_count": 3,
+    "mutation_std": 0.015,
+    "training_seed": 110,
+    "simulator_seeds": [
+      110,
+      111,
+      112,
+      271,
+      997
+    ],
+    "round_seconds": 30.0,
+    "worst_seed_weight": 0.25,
+    "fitness": {
+      "distance_weight": 1.0,
+      "lap_completion_bonus": 100.0,
+      "fast_lap_bonus": 300.0,
+      "health_exponent": 1.5,
+      "damage_penalty": 0.0,
+      "wall_contact_penalty_per_s": 20.0,
+      "low_progress_penalty_per_s": 10.0
+    }
+  },
+  "policy": {
+    "architecture": "12->32->ReLU->32->ReLU->2->tanh",
+    "action_fields": [
+      "steer",
+      "throttle"
+    ],
+    "parameter_count": 1538,
+    "observation": {
+      "fields": [
+        "speed_mps",
+        "wall_lidar_left",
+        "wall_lidar_front_left",
+        "wall_lidar_front",
+        "wall_lidar_front_right",
+        "wall_lidar_right",
+        "camera_center_offset_m",
+        "camera_heading_error_degrees",
+        "camera_lookahead_offset_0",
+        "camera_lookahead_offset_1",
+        "camera_lookahead_offset_2",
+        "imu_yaw_rate_degrees_per_s"
+      ],
+      "size": 12,
+      "speed_abs_max_mps": 50.0,
+      "lidar_cap_m": 100.0,
+      "camera_offset_abs_max_m": 20.0,
+      "heading_error_abs_max_degrees": 180.0,
+      "yaw_rate_abs_max_degrees_per_s": 360.0
+    }
+  },
+  "generations": [
+    {
+      "generation": 50,
+      "best_fitness": 796.6836553075048,
+      "mean_fitness": 516.7884514359541,
+      "worst_fitness": 182.97909336720778,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 51,
+      "best_fitness": 796.6836553075048,
+      "mean_fitness": 520.6516909955834,
+      "worst_fitness": 95.30846628257505,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 52,
+      "best_fitness": 796.6836553075048,
+      "mean_fitness": 526.874446179419,
+      "worst_fitness": 32.44972318203124,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 53,
+      "best_fitness": 796.6836553075048,
+      "mean_fitness": 412.54074868230157,
+      "worst_fitness": 126.31531587414382,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 54,
+      "best_fitness": 796.6836553075048,
+      "mean_fitness": 481.6904967736623,
+      "worst_fitness": 155.18231782952412,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    }
+  ],
+  "source_rescore": {
+    "generation": 49,
+    "best_fitness": 796.6836553075048,
+    "mean_fitness": 516.284112596578,
+    "worst_fitness": 301.51055012011585,
+    "best_candidate_index": 0,
+    "best_checkpoint": "policy-000-elite.pt"
+  },
+  "final_generation": 54
+}

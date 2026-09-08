@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "phase": 8,
+  "status": "running",
+  "source_generation": 79,
+  "source_population": "/Users/lukebriden/formula110/artifacts/evolution/generation-079",
+  "source_population_size": 20,
+  "population_size": 50,
+  "config": {
+    "generations": 100,
+    "elite_count": 5,
+    "mutation_std": 0.002,
+    "mutation_stds": [
+      0.01,
+      0.01,
+      0.005,
+      0.002,
+      0.015,
+      0.04
+    ],
+    "mutation_weights": [
+      0.23,
+      0.23,
+      0.2,
+      0.19,
+      0.1,
+      0.05
+    ],
+    "mutation_scopes": [
+      "steer_output",
+      "throttle_output",
+      "output",
+      "all",
+      "all",
+      "all"
+    ],
+    "training_seed": 110,
+    "simulator_seeds": [
+      110,
+      111,
+      112,
+      271,
+      997
+    ],
+    "round_seconds": 30.0,
+    "worst_seed_weight": 0.25,
+    "fitness": {
+      "distance_weight": 1.5,
+      "lap_completion_bonus": 100.0,
+      "fast_lap_bonus": 300.0,
+      "health_exponent": 1.0,
+      "damage_penalty": 0.0,
+      "wall_contact_penalty_per_s": 20.0,
+      "low_progress_penalty_per_s": 10.0
+    }
+  },
+  "policy": {
+    "architecture": "12->32->ReLU->32->ReLU->2->tanh",
+    "action_fields": [
+      "steer",
+      "throttle"
+    ],
+    "parameter_count": 1538,
+    "observation": {
+      "fields": [
+        "speed_mps",
+        "wall_lidar_left",
+        "wall_lidar_front_left",
+        "wall_lidar_front",
+        "wall_lidar_front_right",
+        "wall_lidar_right",
+        "camera_center_offset_m",
+        "camera_heading_error_degrees",
+        "camera_lookahead_offset_0",
+        "camera_lookahead_offset_1",
+        "camera_lookahead_offset_2",
+        "imu_yaw_rate_degrees_per_s"
+      ],
+      "size": 12,
+      "speed_abs_max_mps": 50.0,
+      "lidar_cap_m": 100.0,
+      "camera_offset_abs_max_m": 20.0,
+      "heading_error_abs_max_degrees": 180.0,
+      "yaw_rate_abs_max_degrees_per_s": 360.0
+    }
+  },
+  "generations": []
+}

@@ -1,0 +1,459 @@
+{
+  "schema_version": 1,
+  "phase": 9,
+  "status": "interrupted",
+  "source_generation": 79,
+  "source_population": "/Users/lukebriden/formula110/artifacts/evolution/generation-079",
+  "source_population_size": 20,
+  "population_size": 50,
+  "config": {
+    "generations": 100,
+    "elite_count": 5,
+    "mutation_std": 0.002,
+    "mutation_stds": [
+      0.01,
+      0.01,
+      0.005,
+      0.002,
+      0.015,
+      0.04
+    ],
+    "mutation_weights": [
+      0.23,
+      0.23,
+      0.2,
+      0.19,
+      0.1,
+      0.05
+    ],
+    "mutation_scopes": [
+      "steer_output",
+      "throttle_output",
+      "output",
+      "all",
+      "all",
+      "all"
+    ],
+    "training_seed": 110,
+    "simulator_seeds": [
+      110,
+      111,
+      112,
+      271,
+      997
+    ],
+    "round_seconds": 30.0,
+    "worst_seed_weight": 0.25,
+    "fitness": {
+      "distance_weight": 1.5,
+      "lap_completion_bonus": 100.0,
+      "fast_lap_bonus": 300.0,
+      "health_exponent": 1.0,
+      "damage_penalty": 0.0,
+      "wall_contact_penalty_per_s": 20.0,
+      "low_progress_penalty_per_s": 10.0
+    }
+  },
+  "policy": {
+    "architecture": "12->32->ReLU->32->ReLU->2->tanh",
+    "action_fields": [
+      "steer",
+      "throttle"
+    ],
+    "parameter_count": 1538,
+    "observation": {
+      "fields": [
+        "speed_mps",
+        "wall_lidar_left",
+        "wall_lidar_front_left",
+        "wall_lidar_front",
+        "wall_lidar_front_right",
+        "wall_lidar_right",
+        "camera_center_offset_m",
+        "camera_heading_error_degrees",
+        "camera_lookahead_offset_0",
+        "camera_lookahead_offset_1",
+        "camera_lookahead_offset_2",
+        "imu_yaw_rate_degrees_per_s"
+      ],
+      "size": 12,
+      "speed_abs_max_mps": 50.0,
+      "lidar_cap_m": 100.0,
+      "camera_offset_abs_max_m": 20.0,
+      "heading_error_abs_max_degrees": 180.0,
+      "yaw_rate_abs_max_degrees_per_s": 360.0
+    }
+  },
+  "generations": [
+    {
+      "generation": 80,
+      "best_fitness": 1055.3080042437482,
+      "mean_fitness": 716.8366821876023,
+      "worst_fitness": -10.574120292609585,
+      "best_candidate_index": 10,
+      "best_checkpoint": "policy-010-mutated.pt"
+    },
+    {
+      "generation": 81,
+      "best_fitness": 1061.8537167429547,
+      "mean_fitness": 798.6652418453787,
+      "worst_fitness": 187.72508568434512,
+      "best_candidate_index": 31,
+      "best_checkpoint": "policy-031-mutated.pt"
+    },
+    {
+      "generation": 82,
+      "best_fitness": 1061.8537167429547,
+      "mean_fitness": 730.7769394590927,
+      "worst_fitness": 160.91054205402907,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 83,
+      "best_fitness": 1061.8537167429547,
+      "mean_fitness": 779.3679640484132,
+      "worst_fitness": 291.39859724197703,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 84,
+      "best_fitness": 1063.4549310615816,
+      "mean_fitness": 678.8854122607383,
+      "worst_fitness": 42.488120506361255,
+      "best_candidate_index": 27,
+      "best_checkpoint": "policy-027-mutated.pt"
+    },
+    {
+      "generation": 85,
+      "best_fitness": 1063.4549310615816,
+      "mean_fitness": 788.9211704855624,
+      "worst_fitness": 401.53885017951086,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 86,
+      "best_fitness": 1072.022601735755,
+      "mean_fitness": 726.610996783183,
+      "worst_fitness": -58.78618836781069,
+      "best_candidate_index": 22,
+      "best_checkpoint": "policy-022-mutated.pt"
+    },
+    {
+      "generation": 87,
+      "best_fitness": 1072.022601735755,
+      "mean_fitness": 731.9696726645979,
+      "worst_fitness": 0.13367895196208934,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 88,
+      "best_fitness": 1072.022601735755,
+      "mean_fitness": 718.7002927623549,
+      "worst_fitness": -69.94103356053749,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 89,
+      "best_fitness": 1072.022601735755,
+      "mean_fitness": 710.103745695365,
+      "worst_fitness": 39.246565838130806,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 90,
+      "best_fitness": 1072.022601735755,
+      "mean_fitness": 731.2895311596087,
+      "worst_fitness": 14.83300435552107,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 91,
+      "best_fitness": 1072.022601735755,
+      "mean_fitness": 726.9585673455641,
+      "worst_fitness": 140.11459265065517,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 92,
+      "best_fitness": 1072.022601735755,
+      "mean_fitness": 747.81567870706,
+      "worst_fitness": 160.75112735800838,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 93,
+      "best_fitness": 1072.022601735755,
+      "mean_fitness": 656.8415891236906,
+      "worst_fitness": 182.9584483585074,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 94,
+      "best_fitness": 1072.022601735755,
+      "mean_fitness": 726.3595765674,
+      "worst_fitness": 299.40693635608255,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 95,
+      "best_fitness": 1072.022601735755,
+      "mean_fitness": 742.5342977614866,
+      "worst_fitness": 127.25176877092466,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 96,
+      "best_fitness": 1072.022601735755,
+      "mean_fitness": 756.9712602298533,
+      "worst_fitness": 89.20864052937299,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 97,
+      "best_fitness": 1072.022601735755,
+      "mean_fitness": 710.6737724677873,
+      "worst_fitness": 144.9164661661422,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 98,
+      "best_fitness": 1072.022601735755,
+      "mean_fitness": 734.243575515532,
+      "worst_fitness": 174.14255985387732,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 99,
+      "best_fitness": 1072.022601735755,
+      "mean_fitness": 708.1835067347887,
+      "worst_fitness": 291.6095297904764,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 100,
+      "best_fitness": 1072.022601735755,
+      "mean_fitness": 669.783681989844,
+      "worst_fitness": -42.38005077181215,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 101,
+      "best_fitness": 1072.022601735755,
+      "mean_fitness": 743.5699888835036,
+      "worst_fitness": 68.57088995928666,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 102,
+      "best_fitness": 1072.586784876196,
+      "mean_fitness": 721.3495754175275,
+      "worst_fitness": 276.7511882976903,
+      "best_candidate_index": 38,
+      "best_checkpoint": "policy-038-mutated.pt"
+    },
+    {
+      "generation": 103,
+      "best_fitness": 1072.586784876196,
+      "mean_fitness": 694.5774420401478,
+      "worst_fitness": 155.15655297874898,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 104,
+      "best_fitness": 1072.586784876196,
+      "mean_fitness": 696.2513653063032,
+      "worst_fitness": 161.43555426494268,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 105,
+      "best_fitness": 1072.586784876196,
+      "mean_fitness": 745.7987201404969,
+      "worst_fitness": 105.0286017210835,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 106,
+      "best_fitness": 1072.586784876196,
+      "mean_fitness": 721.4464238916829,
+      "worst_fitness": 79.31543593339094,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 107,
+      "best_fitness": 1072.586784876196,
+      "mean_fitness": 739.6294244043565,
+      "worst_fitness": 175.8605144602522,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 108,
+      "best_fitness": 1072.586784876196,
+      "mean_fitness": 756.154499597792,
+      "worst_fitness": 80.53598382119563,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 109,
+      "best_fitness": 1072.586784876196,
+      "mean_fitness": 735.5743337341938,
+      "worst_fitness": 254.37314464678875,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 110,
+      "best_fitness": 1075.9725267846793,
+      "mean_fitness": 740.2108043275853,
+      "worst_fitness": 227.57314713828666,
+      "best_candidate_index": 35,
+      "best_checkpoint": "policy-035-mutated.pt"
+    },
+    {
+      "generation": 111,
+      "best_fitness": 1075.9725267846793,
+      "mean_fitness": 728.3132723708819,
+      "worst_fitness": 83.42552492334156,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 112,
+      "best_fitness": 1081.3837113307295,
+      "mean_fitness": 770.0378416616969,
+      "worst_fitness": 293.36205029331757,
+      "best_candidate_index": 15,
+      "best_checkpoint": "policy-015-mutated.pt"
+    },
+    {
+      "generation": 113,
+      "best_fitness": 1081.3837113307295,
+      "mean_fitness": 718.2104877507662,
+      "worst_fitness": 264.6031479549762,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 114,
+      "best_fitness": 1081.3837113307295,
+      "mean_fitness": 734.2748648897835,
+      "worst_fitness": 274.36232900647707,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 115,
+      "best_fitness": 1081.3837113307295,
+      "mean_fitness": 739.3888028710095,
+      "worst_fitness": 230.79383234474216,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 116,
+      "best_fitness": 1081.3837113307295,
+      "mean_fitness": 740.7267207742574,
+      "worst_fitness": 273.18561505723443,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 117,
+      "best_fitness": 1081.3837113307295,
+      "mean_fitness": 734.8427720892655,
+      "worst_fitness": 205.02895417909,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 118,
+      "best_fitness": 1081.3837113307295,
+      "mean_fitness": 718.3344713083259,
+      "worst_fitness": -71.75794719842747,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 119,
+      "best_fitness": 1081.3837113307295,
+      "mean_fitness": 742.7398282975118,
+      "worst_fitness": 150.51291552908734,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 120,
+      "best_fitness": 1081.3837113307295,
+      "mean_fitness": 742.7985547783626,
+      "worst_fitness": 159.84140250868646,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 121,
+      "best_fitness": 1081.3837113307295,
+      "mean_fitness": 753.7835673685302,
+      "worst_fitness": 260.57214781094814,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 122,
+      "best_fitness": 1081.3837113307295,
+      "mean_fitness": 699.0609913073997,
+      "worst_fitness": 46.663546068236315,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 123,
+      "best_fitness": 1081.3837113307295,
+      "mean_fitness": 717.7165215107701,
+      "worst_fitness": 101.81758659296362,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    },
+    {
+      "generation": 124,
+      "best_fitness": 1081.3837113307295,
+      "mean_fitness": 708.8710192201013,
+      "worst_fitness": 265.88735698086657,
+      "best_candidate_index": 0,
+      "best_checkpoint": "policy-000-elite.pt"
+    }
+  ],
+  "source_rescore": {
+    "generation": 79,
+    "best_fitness": 1050.697598208804,
+    "mean_fitness": 753.1384797504676,
+    "worst_fitness": 414.0035673342864,
+    "best_candidate_index": 0,
+    "best_checkpoint": "policy-000-elite.pt"
+  },
+  "interruption_reason": "User requested stop without waiting for generation 125.",
+  "last_completed_generation": 124
+}

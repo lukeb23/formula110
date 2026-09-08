@@ -1,5 +1,9 @@
 # Formula 110 Agent Instructions
 
+For the current long-running experiment and cross-chat working state, read
+`EVOLUTION_HANDOFF.md` after this file and verify its snapshot against the live
+artifacts before acting.
+
 ## Authority and scope
 
 - Follow the user's latest explicit instructions first, then the existing codebase and public Formula 110 interfaces, then this file.

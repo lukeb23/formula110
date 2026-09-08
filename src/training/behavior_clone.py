@@ -30,6 +30,7 @@ class BehaviorCloningConfig:
     batch_size: int = 256
     learning_rate: float = 1e-3
     validation_fraction: float = 0.2
+    loss: str = "mse"
 
 
 def train_behavior_clone(
@@ -41,6 +42,8 @@ def train_behavior_clone(
         raise ValueError("epochs, batch size, and learning rate must be positive")
     if not 0.0 <= config.validation_fraction < 1.0:
         raise ValueError("validation fraction must be in [0, 1)")
+    if config.loss not in {"mse", "smooth_l1"}:
+        raise ValueError("loss must be mse or smooth_l1")
     _seed_everything(config.seed)
     train_indices, validation_indices = _session_split(dataset.session_ids, config.validation_fraction, config.seed)
     train_observations = torch.from_numpy(dataset.observations[train_indices])
@@ -50,7 +53,7 @@ def train_behavior_clone(
 
     policy = PolicyNetwork().to("cpu")
     optimizer = torch.optim.Adam(policy.parameters(), lr=config.learning_rate)
-    loss_function = nn.MSELoss()
+    loss_function = nn.MSELoss() if config.loss == "mse" else nn.SmoothL1Loss(beta=0.5)
     loader_generator = torch.Generator(device="cpu").manual_seed(config.seed)
     loader = DataLoader(
         TensorDataset(train_observations, train_actions),
@@ -69,7 +72,7 @@ def train_behavior_clone(
             loss = loss_function(predictions, actions)
             loss.backward()
             optimizer.step()
-            total_squared_error += float(loss.detach()) * actions.numel()
+            total_squared_error += float(nn.functional.mse_loss(predictions.detach(), actions)) * actions.numel()
             total_values += actions.numel()
         epoch_losses.append(total_squared_error / total_values)
     policy.eval()
@@ -79,7 +82,9 @@ def train_behavior_clone(
         **policy_metadata(),
         "observation": observation_metadata(),
         "training": {
-            "algorithm": "behavior_cloning_action_mse",
+            "algorithm": f"behavior_cloning_action_{config.loss}",
+            "loss": config.loss,
+            "smooth_l1_beta": 0.5 if config.loss == "smooth_l1" else None,
             "seed": config.seed,
             "epochs": config.epochs,
             "batch_size": config.batch_size,
@@ -160,6 +165,7 @@ def main() -> None:
     parser.add_argument("--batch-size", type=int, default=256)
     parser.add_argument("--learning-rate", type=float, default=1e-3)
     parser.add_argument("--validation-fraction", type=float, default=0.2)
+    parser.add_argument("--loss", choices=("mse", "smooth_l1"), default="mse")
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
     paths = discover_human_trials(args.data_dir)
@@ -170,6 +176,7 @@ def main() -> None:
         batch_size=args.batch_size,
         learning_rate=args.learning_rate,
         validation_fraction=args.validation_fraction,
+        loss=args.loss,
     )
     policy, metadata = train_behavior_clone(dataset, config)
     save_behavior_clone(args.output, policy, metadata, overwrite=args.overwrite)
