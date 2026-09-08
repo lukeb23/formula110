@@ -31,9 +31,12 @@ from training.evolution import (
 def test_resume_before_first_generation_preserves_population(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     initial = tmp_path / "generation-000"
     initial.mkdir()
-    (initial / "manifest.json").write_text(json.dumps({"population_size": 2}))
+    (initial / "manifest.json").write_text(
+        json.dumps({"population_size": 2, "candidates": [{"index": 0, "path": "policy.pt"}]})
+    )
     checkpoint = initial / "policy.pt"
-    checkpoint.write_bytes(b"preserve checkpoint")
+    torch.save(checkpoint_payload(PolicyNetwork(), metadata={}), checkpoint)
+    original_bytes = checkpoint.read_bytes()
     config = EvolutionConfig(generations=1, elite_count=1)
 
     def interrupted(*args: object, **kwargs: object) -> list[CandidateEvaluation]:
@@ -47,14 +50,14 @@ def test_resume_before_first_generation_preserves_population(tmp_path: Path, mon
         generation_dir: Path, config: EvolutionConfig, *, elite_cache: object = None
     ) -> list[CandidateEvaluation]:
         assert generation_dir == initial
-        assert checkpoint.read_bytes() == b"preserve checkpoint"
+        assert checkpoint.read_bytes() == original_bytes
         return [CandidateEvaluation(0, "policy.pt", "source", None, 1.0, (_fitness_result(1.0),))]
 
     monkeypatch.setattr("training.evolution.evaluate_generation", evaluate)
     result = run_evolution(initial, config, resume=True)
     assert result["status"] == "complete"
     assert (initial / "results.json").exists()
-    assert checkpoint.read_bytes() == b"preserve checkpoint"
+    assert checkpoint.read_bytes() == original_bytes
 
 
 def test_fitness_rewards_distance_fast_laps_and_health() -> None:

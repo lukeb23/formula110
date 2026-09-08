@@ -60,7 +60,7 @@ def generate_initial_population(
         candidate_seed = config.seed + index
         generator = torch.Generator(device="cpu").manual_seed(candidate_seed)
         vector = base_vector + torch.randn(base_vector.shape, generator=generator) * config.mutation_std
-        policy = PolicyNetwork()
+        policy = PolicyNetwork(bc_policy.hidden_size)
         load_parameter_vector(policy, vector)
         entries.append(
             _save_candidate(
@@ -80,7 +80,7 @@ def generate_initial_population(
         candidate_seed = config.seed + config.policies_per_origin + local_index
         with torch.random.fork_rng(devices=[]):
             torch.manual_seed(candidate_seed)
-            policy = PolicyNetwork()
+            policy = PolicyNetwork(bc_policy.hidden_size)
         vector = flatten_parameters(policy)
         entries.append(
             _save_candidate(
@@ -106,7 +106,7 @@ def generate_initial_population(
         "bc_checkpoint": str(bc_checkpoint.resolve()),
         "bc_checkpoint_sha256": _sha256(bc_checkpoint),
         "bc_training_metadata": bc_metadata,
-        "policy": {**policy_metadata(), "observation": observation_metadata()},
+        "policy": {**policy_metadata(bc_policy), "observation": observation_metadata()},
         "candidates": entries,
     }
     (output_dir / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
@@ -126,7 +126,7 @@ def _save_candidate(
     filename = f"policy-{index:03d}-{origin}.pt"
     path = output_dir / filename
     metadata: dict[str, object] = {
-        **policy_metadata(),
+        **policy_metadata(policy),
         "observation": observation_metadata(),
         "population_index": index,
         "origin": origin,

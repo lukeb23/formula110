@@ -2,6 +2,61 @@
 
 Read `AGENTS.md` first and verify this snapshot against live artifacts.
 
+## Latest focused push — finished; user controls further runs
+
+User requested another real improvement attempt and reduction to 20 vehicles.
+Then explicitly requested no further automatic iterations after this attempt;
+provide the uv command for them to run. Respect this instruction.
+
+Outcome: `artifacts/focused-push/outcome.json`. No improvement over
+1081.3837113307295; the 1600 goal was NOT reached. Source controller and ZIP
+were not replaced. Do not present changed mutation settings as achieved gains.
+
+First 24-policy attempt was interrupted to honor population 20. Then two
+20-policy small-mutation generations completed (36 new candidates), followed by
+six 20-policy coherent Gaussian mutation generations (109 new candidates).
+All 145 completed new candidates were evaluated on the same five seeds and
+fitness. No new winner, so no new held-out comparison/export was warranted.
+Completed results: `artifacts/focused-push/population-20` and `directed-20`.
+Incomplete folders from stopped diagnostics are preserved, not completed results.
+
+The coherent mutation script explores output gains, throttle bias and first-layer
+speed/yaw sensitivity within the shared architecture. Profile determinism,
+finite/bounded outputs and unchanged source parameters were checked. It has
+CLI options for output, generation count, mutation seed and source checkpoint.
+It always uses 20 policies and refuses to overwrite its output directory.
+
+Prepared command for the USER to launch; not launched by the agent:
+
+```bash
+uv run python artifacts/focused-push/directed.py \
+  --output artifacts/evolution-next-20 \
+  --generations 25 \
+  --training-seed 91408
+```
+
+This starts from the same verified champion with new mutation samples. It is
+not a proven plateau fix. Finished diagnostic process exited normally; no
+additional evolution run was started after it.
+
+## Deployment ready — latest update
+
+User needs the controller soon. Verified challenger generations 000–012 retain
+the same 1081.3837113307295 champion. Exported the byte-identical generation-124
+champion to `src/controllers/model/champion-1081.pt` and added runtime factory
+`controllers.evolved_controller`, using shared encoder/network on CPU.
+Submission archive: `artifacts/formula110-evolved-champion-1081.zip`.
+Watch: `uv run racing --student-module controllers.evolved_controller --seed 110`.
+Two laps on each of seeds 110,2021,2022,2023,2024,2025 in 30 seconds. Seed 2022
+damage was .4654 and seed 2024 .2350: robustness remains imperfect.
+Rounded validation and provenance: `src/controllers/model/champion-1081.json`.
+1000 finite/bounded ticks, independent factories, no per-tick reload, CPU/eval,
+and extracted ZIP loading from an unrelated working directory verified.
+Local peak RSS before simulator 215.31 MiB; with simulator 289.80 MiB. This is
+not an official isolated-worker memory certification. 148 tests passed;
+focused Ruff and Pyright passed. Evolution process was not stopped in this turn.
+This deployment update supersedes earlier statements below about no export.
+
 ## Current launch decision — supersedes older preparation below
 
 Launch recovery: user attempted the challenger launch; `experiment.json` exists

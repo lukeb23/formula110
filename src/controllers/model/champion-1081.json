@@ -1,0 +1,17 @@
+{
+  "source_checkpoint": "artifacts/evolution/generation-124/policy-000-elite.pt",
+  "source_fitness": 1081.3837113307295,
+  "controller_module": "controllers.evolved_controller",
+  "export": "Explicit byte-identical export; verified against source before packaging",
+  "validation_round_seconds": 30,
+  "validation_results_rounded": [
+    {"seed": 110, "scored_distance_m": 471.75, "laps": 2, "damage": 0.0026},
+    {"seed": 2021, "scored_distance_m": 467.46, "laps": 2, "damage": 0.0497},
+    {"seed": 2022, "scored_distance_m": 402.54, "laps": 2, "damage": 0.4654},
+    {"seed": 2023, "scored_distance_m": 485.55, "laps": 2, "damage": 0.0795},
+    {"seed": 2024, "scored_distance_m": 361.70, "laps": 2, "damage": 0.2350},
+    {"seed": 2025, "scored_distance_m": 482.99, "laps": 2, "damage": 0.0514}
+  ],
+  "local_peak_rss_mib_before_simulation": 215.3125,
+  "memory_note": "Local process measurement; not a certification in the official isolated worker"
+}

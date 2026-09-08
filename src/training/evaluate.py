@@ -9,7 +9,7 @@ import torch
 from torch import Tensor
 
 from controllers.observation import encode_observation
-from controllers.policy_network import PolicyNetwork, load_parameter_vector
+from controllers.policy_network import PolicyNetwork, policy_from_vector
 from racing import HeadToHeadTeamRaceStats, RobotCommand, RobotSensors, run_headless_head_to_head
 
 # PyTorch's NumPy bridge contains intentionally dynamic annotations.
@@ -95,8 +95,7 @@ def evaluate_policy(
     """Evaluate one parameter vector and return its composite fitness metrics."""
     if round_seconds <= 0.0:
         raise ValueError("round_seconds must be positive")
-    policy = PolicyNetwork()
-    load_parameter_vector(policy, weights)
+    policy = policy_from_vector(weights)
     result = run_headless_head_to_head(
         challenger_controller=PolicyController(policy),
         incumbent_controller=_stationary_controller,

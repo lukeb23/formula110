@@ -140,7 +140,7 @@ def run_evolution(
                 "simulator_seeds": list(config.simulator_seeds),
                 "fitness": asdict(config.fitness),
             },
-            "policy": {**policy_metadata(), "observation": observation_metadata()},
+            "policy": _population_policy_metadata(initial_population_dir),
             "fitness_definition": (
                 "progress=(distance_weight*scored_distance + lap_completion_bonus*laps + "
                 "fast_lap_bonus*(round_seconds-best_lap)/round_seconds); "
@@ -226,7 +226,7 @@ def run_new_phase(
             "simulator_seeds": list(config.simulator_seeds),
             "fitness": asdict(config.fitness),
         },
-        "policy": {**policy_metadata(), "observation": observation_metadata()},
+        "policy": _population_policy_metadata(source_generation_dir),
         "generations": [],
     }
     _write_json(phase_path, phase)
@@ -301,6 +301,15 @@ def run_new_phase(
     return phase
 
 
+def _population_policy_metadata(directory: Path) -> dict[str, object]:
+    manifest = _load_json(directory / "manifest.json")
+    entries = cast(list[dict[str, object]], manifest["candidates"])
+    if not entries:
+        raise ValueError("population is empty")
+    policy, _ = load_policy_checkpoint(directory / str(entries[0]["path"]))
+    return {**policy_metadata(policy), "observation": observation_metadata()}
+
+
 def evaluate_generation(
     generation_dir: Path,
     config: EvolutionConfig,
@@ -364,10 +373,15 @@ def create_next_generation(
         raise FileExistsError(f"refusing to overwrite generation: {output_dir}")
     output_dir.mkdir(parents=True, exist_ok=True)
     elites = ranked[: config.elite_count]
-    elite_vectors = [flatten_parameters(load_policy_checkpoint(source_dir / elite.checkpoint)[0]) for elite in elites]
+    elite_policies = [load_policy_checkpoint(source_dir / elite.checkpoint)[0] for elite in elites]
+    widths = {policy.hidden_size for policy in elite_policies}
+    if len(widths) != 1:
+        raise ValueError("all parents must use the same policy width")
+    hidden_size = elite_policies[0].hidden_size
+    elite_vectors = [flatten_parameters(policy) for policy in elite_policies]
     mutation_schedule = _mutation_schedule(population_size - config.elite_count, config)
     scope_masks = {
-        profile.scope: parameter_mutation_mask(PolicyNetwork(), profile.scope) for profile in set(mutation_schedule)
+        profile.scope: parameter_mutation_mask(elite_policies[0], profile.scope) for profile in set(mutation_schedule)
     }
     entries: list[dict[str, object]] = []
     for index in range(population_size):
@@ -386,11 +400,11 @@ def create_next_generation(
             generator = torch.Generator(device="cpu").manual_seed(mutation_seed)
             noise = torch.randn(vector.shape, generator=generator) * applied_mutation_std
             vector += noise * scope_masks[applied_mutation_scope]
-        policy = PolicyNetwork()
+        policy = PolicyNetwork(hidden_size)
         load_parameter_vector(policy, vector)
         filename = f"policy-{index:03d}-{origin}.pt"
         metadata: dict[str, object] = {
-            **policy_metadata(),
+            **policy_metadata(policy),
             "observation": observation_metadata(),
             "population_index": index,
             "generation": generation_index,

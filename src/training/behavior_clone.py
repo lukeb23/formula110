@@ -16,7 +16,7 @@ from torch import Tensor, nn
 from torch.utils.data import DataLoader, TensorDataset
 
 from controllers.observation import observation_metadata
-from controllers.policy_network import PolicyNetwork, checkpoint_payload, policy_metadata
+from controllers.policy_network import HIDDEN_SIZE, PolicyNetwork, checkpoint_payload, policy_metadata
 from training.dataset import DemonstrationDataset, discover_human_trials, load_demonstrations
 
 # PyTorch's optimizer and NumPy bridge contain intentionally dynamic annotations.
@@ -31,6 +31,7 @@ class BehaviorCloningConfig:
     learning_rate: float = 1e-3
     validation_fraction: float = 0.2
     loss: str = "mse"
+    hidden_size: int = HIDDEN_SIZE
 
 
 def train_behavior_clone(
@@ -51,7 +52,7 @@ def train_behavior_clone(
     validation_observations = torch.from_numpy(dataset.observations[validation_indices])
     validation_actions = torch.from_numpy(dataset.actions[validation_indices])
 
-    policy = PolicyNetwork().to("cpu")
+    policy = PolicyNetwork(config.hidden_size).to("cpu")
     optimizer = torch.optim.Adam(policy.parameters(), lr=config.learning_rate)
     loss_function = nn.MSELoss() if config.loss == "mse" else nn.SmoothL1Loss(beta=0.5)
     loader_generator = torch.Generator(device="cpu").manual_seed(config.seed)
@@ -79,7 +80,7 @@ def train_behavior_clone(
     train_mse = _mse(policy, train_observations, train_actions)
     validation_mse = _mse(policy, validation_observations, validation_actions)
     metadata: dict[str, object] = {
-        **policy_metadata(),
+        **policy_metadata(policy),
         "observation": observation_metadata(),
         "training": {
             "algorithm": f"behavior_cloning_action_{config.loss}",
@@ -166,6 +167,7 @@ def main() -> None:
     parser.add_argument("--learning-rate", type=float, default=1e-3)
     parser.add_argument("--validation-fraction", type=float, default=0.2)
     parser.add_argument("--loss", choices=("mse", "smooth_l1"), default="mse")
+    parser.add_argument("--hidden-size", type=int, default=HIDDEN_SIZE)
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
     paths = discover_human_trials(args.data_dir)
@@ -177,6 +179,7 @@ def main() -> None:
         learning_rate=args.learning_rate,
         validation_fraction=args.validation_fraction,
         loss=args.loss,
+        hidden_size=args.hidden_size,
     )
     policy, metadata = train_behavior_clone(dataset, config)
     save_behavior_clone(args.output, policy, metadata, overwrite=args.overwrite)

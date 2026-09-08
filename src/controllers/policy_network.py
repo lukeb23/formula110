@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
+from math import isqrt
 from pathlib import Path
 from typing import TypeAlias, cast
 
@@ -26,14 +27,17 @@ StateDict: TypeAlias = dict[str, Tensor]
 class PolicyNetwork(nn.Module):
     """Small bounded-action MLP shared by every policy origin."""
 
-    def __init__(self) -> None:
+    def __init__(self, hidden_size: int = HIDDEN_SIZE) -> None:
         super().__init__()
+        if hidden_size < 1:
+            raise ValueError("hidden_size must be positive")
+        self.hidden_size = hidden_size
         self.layers = nn.Sequential(
-            nn.Linear(OBSERVATION_SIZE, HIDDEN_SIZE),
+            nn.Linear(OBSERVATION_SIZE, hidden_size),
             nn.ReLU(),
-            nn.Linear(HIDDEN_SIZE, HIDDEN_SIZE),
+            nn.Linear(hidden_size, hidden_size),
             nn.ReLU(),
-            nn.Linear(HIDDEN_SIZE, ACTION_SIZE),
+            nn.Linear(hidden_size, ACTION_SIZE),
             nn.Tanh(),
         )
 
@@ -41,8 +45,8 @@ class PolicyNetwork(nn.Module):
         return self.layers(observations)
 
 
-def parameter_count() -> int:
-    return sum(parameter.numel() for parameter in PolicyNetwork().parameters())
+def parameter_count(hidden_size: int = HIDDEN_SIZE) -> int:
+    return hidden_size**2 + (OBSERVATION_SIZE + ACTION_SIZE + 2) * hidden_size + ACTION_SIZE
 
 
 def flatten_parameters(policy: PolicyNetwork) -> Tensor:
@@ -53,8 +57,9 @@ def flatten_parameters(policy: PolicyNetwork) -> Tensor:
 def load_parameter_vector(policy: PolicyNetwork, vector: Tensor) -> None:
     """Load a vector using the same deterministic parameter order as flatten_parameters."""
     flat = vector.detach().cpu().to(dtype=torch.float32).reshape(-1)
-    if flat.numel() != parameter_count():
-        raise ValueError(f"expected {parameter_count()} parameters, got {flat.numel()}")
+    expected = parameter_count(policy.hidden_size)
+    if flat.numel() != expected:
+        raise ValueError(f"expected {expected} parameters, got {flat.numel()}")
     offset = 0
     with torch.no_grad():
         for parameter in policy.parameters():
@@ -69,7 +74,7 @@ def parameter_mutation_mask(policy: PolicyNetwork, scope: str) -> Tensor:
         valid = ", ".join(PARAMETER_MUTATION_SCOPES)
         raise ValueError(f"unknown mutation scope {scope!r}; expected one of: {valid}")
     if scope == "all":
-        return torch.ones(parameter_count(), dtype=torch.bool)
+        return torch.ones(parameter_count(policy.hidden_size), dtype=torch.bool)
 
     output_layer = next(layer for layer in reversed(policy.layers) if isinstance(layer, nn.Linear))
     action_index = None
@@ -93,11 +98,13 @@ def parameter_mutation_mask(policy: PolicyNetwork, scope: str) -> Tensor:
     return torch.cat(masks)
 
 
-def policy_metadata() -> dict[str, object]:
+def policy_metadata(policy: PolicyNetwork | None = None) -> dict[str, object]:
+    width = HIDDEN_SIZE if policy is None else policy.hidden_size
     return {
-        "architecture": POLICY_ARCHITECTURE,
+        "architecture": f"{OBSERVATION_SIZE}->{width}->ReLU->{width}->ReLU->{ACTION_SIZE}->tanh",
+        "hidden_size": width,
         "action_fields": list(ACTION_FIELDS),
-        "parameter_count": parameter_count(),
+        "parameter_count": parameter_count(width),
     }
 
 
@@ -105,7 +112,7 @@ def checkpoint_payload(policy: PolicyNetwork, *, metadata: Mapping[str, object])
     return {
         "schema_version": CHECKPOINT_SCHEMA_VERSION,
         "model_state_dict": {name: value.detach().cpu() for name, value in policy.state_dict().items()},
-        "metadata": dict(metadata),
+        "metadata": {**metadata, **policy_metadata(policy)},
     }
 
 
@@ -118,8 +125,47 @@ def load_policy_checkpoint(path: Path) -> tuple[PolicyNetwork, dict[str, object]
     metadata = raw.get("metadata")
     if not isinstance(state, dict) or not isinstance(metadata, dict):
         raise ValueError(f"malformed policy checkpoint: {path}")
-    policy = PolicyNetwork()
+    typed_state = cast(StateDict, state)
+    first_weight = typed_state.get("layers.0.weight")
+    if not isinstance(first_weight, Tensor) or first_weight.ndim != 2:
+        raise ValueError(f"malformed first layer: {path}")
+    width = first_weight.shape[0]
+    if metadata.get("hidden_size", width) != width:
+        raise ValueError(f"checkpoint width metadata does not match weights: {path}")
+    policy = PolicyNetwork(width)
     policy.load_state_dict(cast(StateDict, state), strict=True)
     policy.to("cpu")
     policy.eval()
     return policy, cast(dict[str, object], metadata)
+
+
+def policy_from_vector(vector: Tensor) -> PolicyNetwork:
+    """Infer the shared equal-hidden-layer architecture from its parameter count."""
+    coefficient = OBSERVATION_SIZE + ACTION_SIZE + 2
+    discriminant = coefficient**2 + 4 * (vector.numel() - ACTION_SIZE)
+    if discriminant < 0:
+        raise ValueError("invalid policy vector length")
+    width = (isqrt(discriminant) - coefficient) // 2
+    if width < 1 or parameter_count(width) != vector.numel():
+        raise ValueError("invalid policy vector length")
+    policy = PolicyNetwork(width)
+    load_parameter_vector(policy, vector)
+    return policy
+
+
+def widen_policy(policy: PolicyNetwork, hidden_size: int) -> PolicyNetwork:
+    """Replicate neurons and split outgoing weights to preserve the learned function."""
+    if hidden_size < policy.hidden_size or hidden_size % policy.hidden_size:
+        raise ValueError("new width must be a positive integer multiple of the source width")
+    factor = hidden_size // policy.hidden_size
+    widened = PolicyNetwork(hidden_size)
+    old = [layer for layer in policy.layers if isinstance(layer, nn.Linear)]
+    new = [layer for layer in widened.layers if isinstance(layer, nn.Linear)]
+    with torch.no_grad():
+        new[0].weight.copy_(old[0].weight.repeat(factor, 1))
+        new[0].bias.copy_(old[0].bias.repeat(factor))
+        new[1].weight.copy_(old[1].weight.repeat(factor, factor) / factor)
+        new[1].bias.copy_(old[1].bias.repeat(factor))
+        new[2].weight.copy_(old[2].weight.repeat(1, factor) / factor)
+        new[2].bias.copy_(old[2].bias)
+    return widened.eval()
